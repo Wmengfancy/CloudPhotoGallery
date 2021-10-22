@@ -15,6 +15,7 @@ class photo(models.Model):
     Photo_width = models.IntegerField(default=0)
     Photo_link = models.CharField(max_length=50)
     thumb_count = models.IntegerField(default=0)
+    Photo_visible = models.IntegerField(default=0)
 
     class Meta:
         ordering = ('-created',)
