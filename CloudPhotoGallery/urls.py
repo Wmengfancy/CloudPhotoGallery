@@ -20,3 +20,4 @@ urlpatterns = [
     path('', include('mygallery.urls')), #默认访问云相册
     path('myadmin/', include('myadmin.urls')), #后台管理
 ]
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
