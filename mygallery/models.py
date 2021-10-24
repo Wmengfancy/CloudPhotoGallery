@@ -13,18 +13,18 @@ class photo(models.Model):
     Photo_addtime = models.DateTimeField(default=datetime.now)
     Photo_height = models.IntegerField(default=0)
     Photo_width = models.IntegerField(default=0)
-    Photo_link = models.CharField(max_length=50)
+    Photo_link = models.ImageField(upload_to='static/pics')
     thumb_count = models.IntegerField(default=0)
     Photo_visible = models.IntegerField(default=0)
 
-    class Meta:
-        ordering = ('-created',)
+    # class Meta:
+    #     ordering = ('-created',)
 
     def toDict(self):
         return {'id': self.id, 'Album_id': self.Album_id, 'Photo_name': self.Photo_name,
-                'Photo_description': self.Photo_description, 'Category_id': self.Category_id, 'Photo_addtime': self.Photo_addtime,
+                'Photo_description': self.Photo_description, 'Category_id': self.Category_id, 'Photo_addtime': self.Photo_addtime.strftime('%Y-%m-%d %H:%M:%S'),
                 'Photo_height': self.Photo_height, 'Photo_width': self.Photo_width, 'Photo_link': self.Photo_link,
-                'thumb_count': self.thumb_count}
+                'thumb_count': self.thumb_count,'Photo_visible':self.Photo_visible}
 
     class Meta:
         db_table = "photo"  # 更改表名
@@ -37,8 +37,15 @@ class album(models.Model):
     Owner_id = models.IntegerField(default=0)
     Album_addtime = models.DateTimeField(default=datetime.now)
     Album_password = models.CharField(max_length=50)
+    Album_visible = models.IntegerField(default=0)
     photo_count = models.IntegerField(default=0)
     cover = models.CharField(max_length=50)
+
+    def toDict(self):
+        return {'id':self.id,'Album_name':self.Album_name,'Album_description':self.Album_description,
+                'Album_addtime':self.Album_addtime.strftime('%Y-%m-%d %H:%M:%S'),'Owner_id':self.Owner_id,
+                'Album_password':self.Album_password,'Album_visible':self.Album_visible,'photo_count':self.photo_count,
+                'cover':self.cover}
 
     class Meta:
         db_table = "album"  # 更改表名
@@ -47,6 +54,9 @@ class album(models.Model):
 class category(models.Model):
 
     Category_name = models.CharField(max_length=50)
+
+    def toDict(self):
+        return{'Category_name':self.Category_name}
 
     class Meta:
         db_table = "category"  # 更改表名

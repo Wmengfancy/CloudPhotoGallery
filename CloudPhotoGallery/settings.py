@@ -80,8 +80,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'photogallary',
-        'USER': 'root',
-        'PASSWORD': '',
+        'USER': 'QS',
+        'PASSWORD': 'wang22748',
         'HOST': 'localhost',
         'PORT': '3306',
     }
@@ -128,3 +128,5 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
+MEDIA_URL = '/staic/pics/'
+MEDIA_ROOT = str.format(BASE_DIR, '/staic/pics')

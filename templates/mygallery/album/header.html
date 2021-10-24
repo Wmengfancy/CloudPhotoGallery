@@ -1,17 +1,41 @@
 <!-- 导航栏 -->
+{% load static %}
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<style type="text/css">
+@import "http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css";
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    font-family: sans-serif;
+}
+.mybtn2{
+    background-image: url("{% static 'pics/' %}exit.jpg");
+    background-repeat: no-repeat;
+    background-size:30px;
+    float: right;
+    margin-top: 40px;
+    padding: 30px 30px;
+    /*font-size: 10px;*/
+    /*text-decoration: none;*/
+    color: white;
+    /*font-family: Ionicons;*/
+    cursor: pointer;
+}
+</style>
 <nav class="navbar navbar-expand navbar-dark bg-dark">
     <div class="container">
         <!-- 标志 -->
-        <a 
-            class="navbar-brand" 
+        <a
+            class="navbar-brand"
             href="#"
-            data-bs-toggle="modal" 
+            data-bs-toggle="modal"
             data-bs-target="#login"
         >
-            <h2>
-                我的相册
-            </h2>
+            <h2>我的相册</h2>
         </a>
+        <a class="mybtn2" style="color:white" href=""></a>
     </div>
 </nav>
-
+<!--<a class="mybtn2"></a>-->

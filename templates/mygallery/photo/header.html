@@ -1,17 +1,213 @@
+{% load static %}
 <!-- 导航栏 -->
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<style type="text/css">
+@import "http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css";
+
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    font-family: sans-serif;
+}
+
+.sidebar {
+    float: left;
+    width: 250px;
+    margin-left: -250px;
+    height: 100%;
+    background-color: #212529;
+    overflow: hidden;
+    transition: 0.8s all;
+    /*background-image: url("{% static 'pics/' %}r.jpg");*/
+}
+
+.side {
+    margin-left: 0;
+}
+
+/*靠边*/
+.sidebar ul {
+    margin: 0;
+    padding: 0;
+}
+
+/*去点*/
+.sidebar ul li {
+    list-style: none;
+}
+
+/*去下划线*/
+.sidebar ul li a {
+    text-decoration: none;
+    color: white;
+    height: 80px;
+    width: 100%;
+    font-size: 40px;
+    line-height: 80px;
+    text-align: center;
+    display: block;
+    transition: 0.6s all;
+}
+
+.sidebar ul li a:hover {
+    background: #f0ad4e;
+}
+
+.btn {
+    float: left;
+    padding: 50px 10px;
+    font-size: 30px;
+    text-decoration: none;
+    color: white;
+    font-family: Ionicons;
+    cursor: pointer;
+}
+
+.mydiv{
+    color: #ffffff;
+    background: #f0ad4e;
+    margin: 20px 50px 10px 50px;
+    padding: 0px 10px;
+    text-decoration: none;
+    font-size: 30px;
+    border-radius: 5px 5px 5px 5px;
+    vertical-align: middle;
+}
+.mydiv1{
+    margin: 30px 50px 10px 50px;
+    color: #ffffff;
+    background: #f0ad4e;
+    padding: 0px 10px;
+    text-decoration: none;
+    font-size: 30px;
+    text-align:center;
+    border-radius: 10px 10px 10px 10px;
+    vertical-align: middle;
+}
+
+.btn:before {
+    content: '\f20d';
+}
+
+.btnc:before {
+    content: '\f12a';
+}
+
+#content{
+        margin: 10px auto 0;
+}
+#content li,#content .wrapper,#content li span{
+    width: 250px;
+    height: 100px;
+    margin: 30px 0 20px 0;
+}
+#content li{
+    cursor: pointer;
+    -webkit-perspective: 4000px;
+    width: 250px;
+    height: 100px;
+    float: left;
+    margin: 30px 0 20px 50px;
+}
+#content .wrapper{
+    position: relative;
+    -webkit-transform-style: preserve-3d;
+    -webkit-transition: -webkit-transform .6s;
+}
+#content li img{
+    top:0;
+    border-radius: 5px;
+    height: 100px;
+    box-shadow: 0px 3px 8px rgba(0,0,0,0.3);
+    position: absolute;
+    -webkit-transform: translateZ(50px);
+    -webkit-transition: all .6s;
+}
+#content li span{
+    background: -webkit-gradient(linear, left top,left bottom,color-stop(0%,rgba(23,6,241,244,1)),color-stop(100%,rgba(190,202,217,1)));
+    text-shadow: 1px 1px 1px rgba(255,255,255,0.5);
+    position: absolute;
+    -webkit-transform: rotateX(-90deg) translateZ(50px);
+    -webkit-transition: all .6s;
+    display: block;
+    top:0;
+    text-align: left;
+    border-radius: 15px;
+    font-size: 12px;
+    padding: 10px;
+    width: 250px;
+    height: 80px;
+    box-shadow: none;
+}
+#content li span strong{
+    display: block;
+    margin: .2em 0 .5em 0;
+    font-size: 20px;
+    font-family: "Oleo Script";
+}
+#content li:hover .wrapper{
+    -webkit-transform: rotateX(95deg);
+}
+
+</style>
+
+<div class="sidebar">
+    <ul id="content">
+        {% for album in albumlist %}
+        <div class="mydiv1" style="color:#ffffff;">相册信息</div>
+        <li>
+            <p class="wrapper">
+                <img src="{% static 'pics/cover.jpg' %}">
+                <span class="information">
+                    <strong>相册名称</strong>{{ album.Album_name }}
+                </span>
+            </p>
+        </li>
+        <li>
+            <p class="wrapper">
+                <img src="{% static 'pics/cover.jpg' %}">
+                <span class="information">
+                    <strong>相册描述</strong>{{ album.Album_description }}
+                </span>
+            </p>
+        </li>
+        <li>
+            <p class="wrapper">
+                <img src="{% static 'pics/cover.jpg' %}">
+                <span class="information">
+                    <strong>创建时间</strong>{{ album.Album_addtime }}
+                </span>
+            </p>
+        </li>
+
+        {% endfor %}
+    </ul>
+</div>
+<a class="btn" style="color:white"></a>
 <nav class="navbar navbar-expand navbar-dark bg-dark">
     <div class="container">
         <!-- 标志 -->
-        <a 
-            class="navbar-brand" 
+        <a
+            class="navbar-brand"
             href="#"
-            data-bs-toggle="modal" 
+            data-bs-toggle="modal"
             data-bs-target="#login"
         >
             <h2>
-                相册照片{{ album.Album_name }}
+                {% for album in albumlist %}
+                    {{ album.Album_name }}
+                {% endfor %}
             </h2>
         </a>
     </div>
 </nav>
 
+<script type="text/javascript">
+    $('.btn').on('click',function () {
+        $('.btn').toggleClass('btnc');
+        $('.sidebar').toggleClass('side');
+
+    })
+</script>

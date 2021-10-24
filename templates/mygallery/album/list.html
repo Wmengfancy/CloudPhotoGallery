@@ -6,7 +6,7 @@
 
     <div class="container py-2">
         <div class="row" data-masonry='{"percentPosition": true}' id="cards">
-             {% for album in albumlist %}
+             {% for key,album in albumlist %}
             <div class="col-4 py-2 grid-item">
                 <div class="card hvr-float-shadow">
                     <div style="padding:10px 0 1px 0;background: #f0ad4e;">
@@ -25,13 +25,13 @@
         </div>
 
      <!-- Modal -->
-    {% for album in albumlist  %}
+    {% for key,album in albumlist  %}
         <div class="modal fade" id="album-{{ album.id }}">
             <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content">
                     <div class="modal-body">
                             <img
-                            src="{% static 'pics/' %}{{album.cover}}"
+                            src="{% static 'pics/' %}{{ album.cover }}"
                             alt=""
                             class="card-img"
                             >

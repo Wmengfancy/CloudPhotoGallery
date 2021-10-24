@@ -14,7 +14,7 @@
                     data-bs-target="#photo-{{ photo.id }}"
                     >
                         <img
-                        src="{% static 'pics/' %}{{photo.Photo_link}}"
+                        src="{{ photo.Photo_link.url }}"
                         alt=""
                         class="card-img"
                         >
@@ -33,7 +33,7 @@
                         &laquo;
                     </a>
                     <a
-                    href="?page={{ photos.previous_page_number }}"
+                    href="?page={{ photolist.previous_page_number }}"
                     class="paginator prevnext">
                         {{ photolist.previous_page_number }}
                     </a>
@@ -45,12 +45,12 @@
 
                 {% if photolist.has_next %}
                     <a
-                    href="?page={{ photos.next_page_number }}"
+                    href="?page={{ photolist.next_page_number }}"
                     class="paginator prevnext">
                         {{ photolist.next_page_number }}
                     </a>
                     <a
-                    href="?page={{ photos.paginator.num_pages }}"
+                    href="?page={{ photolist.paginator.num_pages }}"
                     class="paginator prevnext">
                         &raquo;
                     </a>
@@ -64,13 +64,21 @@
     <div class="modal fade" id="photo-{{ photo.id }}">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
-                <div class="modal-body">
-                    <img
-                    src="{% static 'pics/' %}{{photo.Photo_link}}"
+                <div class="modal-body" >
+                    <div class="photo-text">{{ photo.Photo_name }}</div>
+                     <img
+                    src="{{ photo.Photo_link.url }}"
                     alt=""
                     class="card-img"
                     >
                 </div>
+                 <div class="Rfloat">
+
+                    <li >相册描述 <br /> {{ photo.Photo_description }}</li>
+                    <li >创建时间 <br /> {{ photo.Photo_addtime }}</li>
+                    <li ><a href="#">编辑相册</a></li>
+                </div>
+            </div>
             </div>
         </div>
     </div>
@@ -92,7 +100,15 @@
         padding-left: 10px;
         padding-right: 10px;
     }
+.Rfloat{
+    height: 100%;
+    background: rgba(255,255,255,0.3);
+    float: bottom;
+    border-radius: 10px;
+    .photo-text{
 
+    }
+}
     
 </style>
 

@@ -16,16 +16,6 @@ def webindex(request,Aid):
     context = {'albumlist': albumlist, 'photolist': photolist}
     return render(request, "mygallery/photo/list.html", context)
 
-def oss_home(request):
-
-    photos = photo.objects.all()
-    paginator    = Paginator(photos, 6)
-    page_number  = request.GET.get('page')
-    paged_photos = paginator.get_page(page_number)
-    context      = {'photos': paged_photos}
-
-    return render(request, 'photo/oss_list.html', context)
-
 def fetch_photos(request):
     photos       = photo.objects.values()
     paginator    = Paginator(photos, 4)

@@ -1,12 +1,13 @@
 <!-- Footer -->
 <div><br><br><br></div>
 <style type="text/css">
-a.btn{
+a.mybtn{
     color: #ffffff;
     background: #f0ad4e;
     margin: 0px 10px 10px 10px;
     padding: 0px 10px;
     text-decoration: none;
+    border-radius: 5px 5px 5px 5px;
     vertical-align: middle;
 }
 .footer-top{
@@ -17,9 +18,12 @@ a.btn{
 <footer class="py-3 bg-dark fixed-bottom">
         <div class="gcs-footer">
             <div class="text-center">
-                    <a href="#" class="btn">编辑相册</a>|
-                    <a  href="#" class="btn" >添加照片</a>
-                    <a href="#" class="btn">删除照片</a>
+                {% for album in albumlist %}
+                    <a href="#" class="mybtn">编辑相册</a>
+                    <a  href="../photo/upload/{{ album.id }}" class="mybtn" >添加照片</a>
+                    <a href="#" class="mybtn">删除照片</a>
+                    <a href="#" class="mybtn" onClick="javascript:history.back(1);">返回相册</a>
+                {% endfor %}
             </div>
             <p class="m-0 text-center text-white">
             Copyright &copy; 电子科技大学软件工程12小组
