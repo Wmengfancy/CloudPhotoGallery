@@ -1,15 +1,46 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from mygallery.models import user
+from mygallery.models import user, photo, category, album
 from django.shortcuts import redirect
 from django.urls import reverse
 from PIL import Image, ImageDraw, ImageFont
+
 
 # Create your views here.
 
 def index(request):
     checkcount = user.objects.filter(User_check=0).count()
-    return render(request,'myadmin/index/index.html',{'checkcount':checkcount})
+    usercount = user.objects.count()
+    photocount = photo.objects.count()
+
+    #筛选出照片最多的五个分类存入countlist_cate中
+    catelist = category.objects.all()
+    countlist_cate = []
+    for vo in catelist:
+        photoob = photo.objects.filter(Category_id=vo.id)
+        pc = photoob.count()
+        c = {'id':vo.id, 'Category_name':vo.Category_name,'photocount':pc}
+        countlist_cate.append(c)
+    countlist_cate = sorted(countlist_cate, key=lambda x:x['photocount'], reverse=True)
+    countlist_cate = countlist_cate[0:5]
+    # 筛选出上传照片数量最多的五个用户存入countlist_user中
+    userlist = user.objects.all()
+    countlist_user = []
+    for vo in userlist:
+        count0 = 0
+        albumob = album.objects.filter(Owner_id=vo.id)
+        for al in albumob:
+            photoob = photo.objects.filter(Album_id=al.id)
+            pc = photoob.count()
+            count0 = count0+pc
+        u = {'id': vo.id, 'User_name': vo.User_name, 'photocount': count0}
+        countlist_user.append(u)
+    countlist_user = sorted(countlist_user, key=lambda x: x['photocount'], reverse=True)
+    countlist_user = countlist_user[0:5]
+
+    context = {'checkcount':checkcount, 'usercount':usercount, 'photocount':photocount,'countlist_cate':countlist_cate, 'countlist_user':countlist_user}
+    return render(request,'myadmin/index/index.html', context)
+
 
 #管理员登录表单
 def login(request):
