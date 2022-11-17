@@ -1,0 +1,184 @@
+{% load static from staticfiles %}
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Responsive Admin Dashboard Template">
+        <meta name="keywords" content="admin,dashboard">
+        <meta name="author" content="stacks">
+        <!-- The above 6 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+        
+        <!-- Title -->
+        <title>新建相册</title>
+
+        <!-- Styles -->
+        <link href="https://fonts.googleapis.com/css?family=Poppins:400,500,700,800&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link href="/static/mygallery/photo/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/static/mygallery/photo/assets/plugins/font-awesome/css/all.min.css" rel="stylesheet">
+        <link href="/static/mygallery/photo/assets/plugins/perfectscroll/perfect-scrollbar.css" rel="stylesheet">
+        <link href="/static/mygallery/photo/assets/plugins/pace/pace.css" rel="stylesheet">
+
+      
+        <!-- Theme Styles -->
+        <link href="/static/mygallery/photo/assets/css/main.min.css" rel="stylesheet">
+        <link href="/static/mygallery/photo/assets/css/custom.css" rel="stylesheet">
+
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+       
+        <script language="javascript">
+        var maxstrlen=250;
+        function Q(s){return document.getElementById(s);}
+        function checkWord(c){
+            len=maxstrlen;
+            var str = c.value;
+            myLen=getStrleng(str);
+            var wck=Q("wordCheck");
+            if(myLen>len*2){
+                c.value=str.substring(0,i+1);
+            }
+            else{
+                wck.innerHTML = Math.floor((len*2-myLen)/2);
+                }
+        }
+        function getStrleng(str){
+            myLen =0;
+            i=0;
+            for(;(i<str.length)&&(myLen<=maxstrlen*2);i++){
+            if(str.charCodeAt(i)>0&&str.charCodeAt(i)<128)
+            myLen++;
+            else
+            myLen+=2;
+        }
+        return myLen;
+        }
+
+        </script>
+    </head>
+
+    <body class="page-sidebar-collapsed">
+
+        <div class="page-container">
+            <div class="page-content">
+
+              <div class="page-header">
+                <nav class="navbar navbar-expand-lg d-flex justify-content-between">
+
+                  <div class="header-title flex-fill">
+                    <a href="#" id="sidebar-toggle"><i data-feather="arrow-left"></i></a>
+                    <h1 class="card-title">编辑相册</h1>
+                  </div>
+                    <div class="flex-fill" id="headerNav">
+                      <ul class="navbar-nav">
+
+                        </li>
+                        <li class="nav-item dropdown">
+                          <a class="nav-link profile-dropdown" href="#" id="profileDropDown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><img src="assets/images/avatars/avatar1.jpeg" alt=""></a>
+                          <div class="dropdown-menu dropdown-menu-end profile-drop-menu" aria-labelledby="profileDropDown">
+                            <a class="dropdown-item" href="#"><i data-feather="user"></i>Profile</a>
+                            <a class="dropdown-item" href="#"><i data-feather="inbox"></i>Messages</a>
+                            <a class="dropdown-item" href="#"><i data-feather="edit"></i>Activities<span class="badge rounded-pill bg-success">12</span></a>
+                            <a class="dropdown-item" href="#"><i data-feather="check-circle"></i>Tasks</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#"><i data-feather="settings"></i>Settings</a>
+                            <a class="dropdown-item" href="#"><i data-feather="unlock"></i>Lock</a>
+                            <a class="dropdown-item" href="#"><i data-feather="log-out"></i>Logout</a>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                </nav>
+              </div>
+            <form method="post" action="{% url 'mygallery_album_do_edit' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="main-wrapper">
+                {% for album in albumob %}
+                  <div class="row">
+                    <div class="col-sm-12 col-md-4">
+                      <div class="card">
+                        <img src="{{ album.cover.url }}" class="card-img-top" alt="...">
+                        <div class="card-body">
+                        </div>
+                      </div>
+                      <div class="card text-center">
+                        <div class="card-header">
+                          <ul class="nav nav-pills card-header-pills">
+                          </ul>
+                        </div>
+
+                        <div class="card-body">
+                          <h5 class="card-title">默认封面</h5>
+                          <p class="card-text">自定义封面请点击浏览</p>
+                        </div>
+                        <div class="mb-3">
+                          <label for="formFileMultiple" class="form-label"></label>
+                          <input class="form-control" type="file" name="album_cover" multiple>
+                          </div>
+                      </div>
+                    </div>
+                    
+                    <div class="col-sm-12 col-md-4">
+                      <div class="card">
+                        <div class="card-body">
+                          <blockquote class="blockquote mb-0">
+                            <div class="mb-3">
+                            <h5 class="card-title">相册命名</h5>
+                              <label for="exampleInputEmail1" class="form-label"></label>
+                              <input type="text" name="album_name" class="form-control" value={{ album.Album_name }}  ></input>
+                            </div>
+                          </blockquote>
+                        </div>
+                      </div>
+
+                      <div class="card">
+                        <div class="card-body">
+                          <h5 class="card-title">相册描述</h5>
+                          
+                          <textarea rows="10" cols="60" 
+                          onKeyUp="javascript:checkWord(this);" 
+                          onMouseDown="javascript:checkWord(this);"  
+                          style="overflow-y:scroll"
+                          name="album_description"
+                          id='txt'
+                          >{{album.Album_description}}</textarea>
+                                                                         
+                          还可以输入<span style="font-family: Georgia; font-size: 26px;" id="wordCheck">250</span>个字符
+                        </div>
+                      </div>
+
+                      </div>
+
+                      
+                      <div class="card text-center">
+                        <div class="card-body">
+                             <p style="color: red">{{ error_msg }}</p>
+                        <button type="submit" class="btn btn-primary">提交</button>
+                        </div>
+                      </div>
+
+                    </div>
+                </div>
+            </div>
+         </div>
+
+                {% endfor %}
+        </form>
+        
+        <!-- Javascripts -->
+        <script src="/static/mygallery/photo/assets/plugins/jquery/jquery-3.4.1.min.js"></script>
+        <script src="https://unpkg.com/@popperjs/core@2"></script>
+        <script src="/static/mygallery/photo/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+        <script src="https://unpkg.com/feather-icons"></script>
+        <script src="/static/mygallery/photo/assets/plugins/perfectscroll/perfect-scrollbar.min.js"></script>
+        <script src="/static/mygallery/photo/assets/plugins/pace/pace.min.js"></script>
+        <script src="/static/mygallery/photo/assets/js/main.min.js"></script>
+    
+    
+    </body>
+</html>

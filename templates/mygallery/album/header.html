@@ -1,17 +1,231 @@
 <!-- 导航栏 -->
-<nav class="navbar navbar-expand navbar-dark bg-dark">
+{% load static %}
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://s3.pstatp.com/cdn/expire-1-M/jquery/3.3.1/jquery.min.js"></script>
+        <link href="{% static 'mygallery/share/assets/css/main.min.css' %}" rel="stylesheet">
+        <link href="{% static 'mygallery/share/assets/css/custom.css' %}" rel="stylesheet">
+<style type="text/css">
+@import "http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css";
+.img2{
+    width:35px;
+    margin: 5px 10px 0 5px;
+}
+.img3{
+    width:25px;
+    margin: 5px 25px 0 5px;
+}
+.myh2{
+    padding-top: 30px;
+    font-size: 30px;
+}
+.sidebar {
+    float: left;
+    width: 250px;
+    margin-left: -250px;
+    height: 100%;
+    background:linear-gradient(#1f1f2b 60%,#181821);
+    overflow: hidden;
+    transition: 0.8s all;
+}
+
+.side {
+    margin-left: 0;
+}
+
+/*靠边*/
+.sidebar ul {
+    margin: 0;
+    padding: 0;
+}
+
+/*去点*/
+.sidebar ul li {
+    list-style: none;
+}
+
+/*去下划线*/
+.sidebar ul li a {
+    text-decoration: none;
+    color: white;
+    height: 80px;
+    width: 100%;
+    font-size: 40px;
+    line-height: 80px;
+    text-align: center;
+    display: block;
+    transition: 0.6s all;
+}
+
+.sidebar ul li a:hover {
+    background: #83d8ae;
+}
+.btn11 {
+    float: left;
+    padding: 40px 10px;
+    font-size: 30px;
+    text-decoration: none;
+    color:#83d8ae;
+    font-family: Ionicons;
+    cursor: pointer;
+}
+.mydiv1{
+    margin: 5px 50px 15px 50px;
+    color: #83d8ae;
+    text-decoration: none;
+    font-size: 30px;
+    text-align:center;
+    vertical-align: middle;
+    font-family: 微软雅黑;
+}
+.mya{
+    text-decoration: none;
+    color: white;
+    float: left;
+    margin-right: 50px;
+}
+.mya:hover{
+    color: white;
+}
+
+.btn11:before {
+    content: '\f20d';
+}
+
+.btnc:before {
+    content: '\f12a';
+}
+#content li,#content .wrapper,#content li span{
+    width: 200px;
+    height: 100px;
+    margin: 5px 0 35px 0;
+}
+#content li{
+    cursor: pointer;
+    -webkit-perspective: 4000px;
+    width: 200px;
+    height: 100px;
+    float: left;
+    margin: 5px 0 35px 0px;
+}
+#content .wrapper{
+    position: relative;
+    -webkit-transform-style: preserve-3d;
+    -webkit-transition: -webkit-transform .6s;
+}
+#content li img{
+    top:0;
+    border-radius: 5px;
+    box-shadow: 0px 3px 8px rgba(0,0,0,0.3);
+    position: absolute;
+    -webkit-transform: translateZ(50px);
+    -webkit-transition: all .6s;
+}
+#content li span{
+    background: -webkit-gradient(linear, left top,left bottom,color-stop(0%,rgba(236,241,244,0.1)),color-stop(100%,rgba(190,202,217,0.1)));
+    position: absolute;
+    -webkit-transform: rotateX(-90deg) translateZ(50px);
+    -webkit-transition: all .6s;
+    display: block;
+    top:0;
+    border-radius: 15px;
+    padding-top: 15px;
+    margin-top: 20px;
+    margin-left: 25px;
+    width: 200px;
+    height: 60px;
+    box-shadow: none;
+}
+#content li span strong{
+    display: block;
+    text-align: center;
+    vertical-align: center;
+    color: #83d8ae;
+    font-size: 20px;
+    font-family: 等线 ;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+#content li:hover .wrapper{
+    -webkit-transform: rotateX(95deg);
+}
+.card-jpg{
+    width: 70px;
+    height: 70px;
+    border-radius: 5px;
+    margin-top: 20px;
+    margin-left: 90px;
+}
+</style>
+
+<div class="sidebar">
+    <ul id="content">
+        <img class="card-jpg" src="{% static 'pics/avatar1.jpeg' %}">
+        <div class="mydiv1">{{ user.User_name }}</div>
+        <li>
+            <p class="wrapper">
+                <span class="information1" style="-webkit-transform: translateZ(50px);-webkit-transition: all .6s;">
+                    <strong>电话</strong>
+                </span>
+                <span class="information">
+                    <strong>{{ user.User_phone }}</strong>
+                </span>
+            </p>
+        </li>
+        <li>
+            <p class="wrapper">
+                <span class="information1" style="-webkit-transform: translateZ(50px);-webkit-transition: all .6s;">
+                    <strong>邮箱</strong>
+                </span>
+                <span class="information">
+                    <strong title="{{ user.User_email }}">{{ user.User_email }}</strong>
+                </span>
+            </p>
+        </li>
+        <li>
+            <p class="wrapper">
+                <span class="information1" style="-webkit-transform: translateZ(50px);-webkit-transition: all .6s;">
+                    <strong>注册时间</strong>
+                </span>
+                <span class="information">
+                    <strong>{{ user.date_joined }}</strong>
+                </span>
+            </p>
+        </li>
+    </ul>
+</div>
+<a class="btn11" style="color:white"></a>
+
+<nav class="navbar navbar-expand navbar-dark " style="background: #181821">
     <div class="container">
         <!-- 标志 -->
-        <a 
-            class="navbar-brand" 
-            href="#"
-            data-bs-toggle="modal" 
-            data-bs-target="#login"
-        >
-            <h2>
-                我的相册
-            </h2>
+        <div>
+            <a class="mya"  href="../album/webindex">
+                <h2 class="myh2">我的相册</h2>
+            </a>
+            <a class="mya" href="../share/webindex">
+                <h2 class="myh2">广场</h2>
+            </a>
+        </div>
+        <div style="padding-top: 20px">
+            <a href="./newalbum/">
+             <img class="img2"
+                  src="{% static 'pics/' %}newly.jpg"
+             >
+         </a>
+        <a href="#">
+            <img class="img3"
+                 src="{% static 'pics/' %}exit.jpg"
+            >
         </a>
+        </div>
     </div>
 </nav>
 
+<script type="text/javascript">
+    $('.btn11').on('click',function () {
+        $('.btn11').toggleClass('btnc');
+        $('.sidebar').toggleClass('side');
+
+    })
+</script>
