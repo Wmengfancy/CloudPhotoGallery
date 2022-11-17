@@ -13,9 +13,10 @@
 
     {% load static %}
     <link rel="stylesheet" href="{% static 'mygallery/photo/hover.css' %}">
+    <link rel="stylesheet" href="{% static 'mygallery/photo/style.css' %}">
+
   </head>
   <body>
-    <!-- 引入导航栏 -->
     {% include './header.html' %}
     <!-- 预留具体页面的位置 -->
     {% block content %}{% endblock content %}
@@ -40,7 +41,7 @@
 
     <style>
         body {
-            background-color:#212529;
+            background-color:#181821;
         }
     </style>
   </body>
