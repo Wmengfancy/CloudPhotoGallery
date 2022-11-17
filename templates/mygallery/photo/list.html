@@ -1,6 +1,6 @@
 {% extends "mygallery/photo/base.html" %}
 {% load static %}
-{% block title %}首页{% endblock title %}
+{% block title %}云相册-照片{% endblock title %}
 
 {% block content %}
     <div class="container py-2">
@@ -8,17 +8,33 @@
             {% for photo in photolist %}
             <div class="col-4 py-2 grid-item">
                 <div class="card hvr-float-shadow">
+                     <nav style="height: 40px;width:100%;background: rgba(0,0,0,0);position: absolute; z-index: 10;">
+                        <a style="display:inline">
+                             {% if photo.Photo_visible == -1 %}
+                            <div style="display: inline;" class="mytext4">违规图片，请及时删除</div>
+                                {%  endif %}
+                           <img class="img3" style="float:right;"
+                                src="{% static 'pics/' %}delete.jpg"
+                                onClick="Value('{% url 'mygallery_photo_do_delete' photo.id %}')"
+                                data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                           >
+                        </a>
+                    </nav>
+                    <nav style="height: 40px;width:100%;background: rgba(0,0,0,0);position: absolute; z-index: 10;bottom: 1px">
+                        <div style="display: inline;" class="mytext2">{{ photo.Photo_name }}</div>
+                    </nav>
                     <a
                     href="#"
                     data-bs-toggle="modal"
                     data-bs-target="#photo-{{ photo.id }}"
                     >
                         <img
-                        src="{{photo.Photo_link.url}}"
+                        src="{{ photo.Photo_link.url }}"
                         alt=""
                         class="card-img"
                         >
                     </a>
+
                 </div>
             </div>
             {% endfor %}
@@ -63,45 +79,119 @@
     <!-- Modal -->
     <div class="modal fade" id="photo-{{ photo.id }}">
         <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <img
-                    src="{{photo.Photo_link.url}}"
+            <div class="modal-content" style="width: 500px;margin-left: 100px">
+                <div class="modal-body" style="margin-top: 20px">
+                     <img
+                    src="{{ photo.Photo_link.url }}"
                     alt=""
                     class="card-img"
                     >
                 </div>
+                 <div class="Rfloat">
+                     <div class="photo-text" style="font-size: 30px;">{{ photo.Photo_name }}</div>
+                     <div class="photo-text">照片描述：{{ photo.Photo_description }}</div>
+                     <div class="photo-text">创建时间：{{ photo.Photo_addtime }}</div>
+                </div>
+
+            </div>
             </div>
         </div>
     </div>
     {% endfor %}
+
+        <!-- Modal 信息提示-->
+  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">相片删除</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          &emsp; &emsp; 确定要删除这张相片吗？
+        </div>
+        <div class="modal-footer">
+          <input type="hidden" id="url"/>
+          <a type="button" class="btn btn-success" data-bs-dismiss="modal" onclick="urlSubmit()">确定</a>
+    {#          <a type="button" class="btn btn-success" href="URL">确定</a>#}
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock content %}
 
 {% block scripts %}
-<style>
-    .paginator {
-        color: white;
-        text-align: center;
-        text-decoration: none;
-    }
-    .prevnext {
-        font-size: x-large;
-    }
-    .current {
-        font-size: xx-large;
-        padding-left: 10px;
-        padding-right: 10px;
-    }
-
-    
+<style type="text/css">
+.paginator {
+    color: white;
+    text-align: center;
+    text-decoration: none;
+}
+.prevnext {
+    font-size: x-large;
+}
+.current {
+    font-size: xx-large;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.img3{
+    width: 30px;
+    margin: 5px 5px 5px 5px;
+    opacity: 0.5;
+}
+.mytext2{
+    text-align: center;
+    font-size: 25px;
+    color: white;
+    padding: 0 0 0 10px;
+    opacity: 0.7;
+}
+.mytext4{
+    text-align: center;
+    font-size: 18px;
+    color: red;
+    font-weight:bold;
+    padding: 0 0 0 10px;
+    opacity: 0.4;
+}
+.photo-text{
+    margin-left: 15px;
+    color: black;
+    font-size: 20px;
+    font-family: 隶书;
+}
 </style>
 
+
 <script type='text/javascript'>
-    $(window).on('load', function() {
+{
+     $(window).on('load', function() {
         $('#cards').masonry({
         // options
         itemSelector: '.grid-item'
         });
     })
+}
+function Value(url){
+
+    $('#url').val(url);//给会话中的隐藏属性url赋值
+    $('#staticBackdrop').modal();
+}
+
+function urlSubmit(){
+
+    var url = $.trim($("#url").val());  //获取会话中的隐藏属性url
+    window.location.href = url
+}
+
+ {% if messages %}
+
+    {% for msg in messages %}
+        alert('{{ msg.message }}');
+    {% endfor %}
+
+{% endif %}
 </script>
 {% endblock scripts %}
