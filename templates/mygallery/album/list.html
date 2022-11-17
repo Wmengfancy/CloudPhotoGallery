@@ -1,37 +1,91 @@
 {% extends "mygallery/album/base.html" %}
-{% load static %}
-{% block title %}首页{% endblock title %}
-
+{% block title %}云相册-相册{% endblock title %}
 {% block content %}
+{% load static %}
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://s3.pstatp.com/cdn/expire-1-M/jquery/3.3.1/jquery.min.js"></script>
+<style type="text/css">
+@import "http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css";
+.img1{
+    width:30px;
+    float: right;
+    margin: 5px 5px 0 5px;
+    opacity: 0.5;
+}
+.mytext1{
+    text-align: center;
+    font-size: 25px;
+    color: white;
+    padding: 0 0 0 20px;
+    opacity: 0.5;
+}
+.mytop{
+    margin-top: 1px;
+}
+</style>
 
-    <div class="container py-2">
-        <div class="row" data-masonry='{"percentPosition": true}' id="cards">
-             {% for key,album in albumlist %}
-            <div class="col-4 py-2 grid-item">
-                <div class="card hvr-float-shadow">
-                    <div style="padding:10px 0 1px 0;background: #f0ad4e;">
-                        <h6 style="text-align:center">{{ album.Album_name }}</h6>
-                    </div>
-                    <a href="../photo/webindex/{{ album.id }}">
-                        <img
-                        src="{% static 'pics/' %}{{ album.cover }}"
-                        alt=""
-                        class="card-img"
+<div class="container py-2">
+    <div class="row" data-masonry='{"percentPosition": true}' id="cards">
+        {% for album in albumlist %}
+        <div class="col-4 py-2 grid-item mytop">
+            <div class="card hvr-float-shadow">
+                <nav style="width: 100%;height:40px;position: absolute;z-index: 10">
+                    <div style="display: inline;" class="mytext1">{{ album.Album_name }}</div>
+                    <a style="display:inline">
+                        <img class="img1" style="float:right;"
+                             src="{% static 'pics/' %}delete.jpg"
+                             onClick="Value('{% url 'mygallery_album_do_delete' album.id %}')"
+                             data-bs-toggle="modal" data-bs-target="#staticBackdrop"
                         >
                     </a>
-                </div>
+                    <a style="display:inline" href="editalbum/{{ album.id }}">
+                        <img class="img1" style="float: right"
+                             src="{% static 'pics/' %}edit.jpg"
+                        >
+                    </a>
+                </nav>
+
+                <a href="../photo/webindex/{{ album.id }}">
+                    <img src="{{ album.cover.url }}"
+                         alt=""
+                         class="card-img"
+                    >
+                </a>
             </div>
-             {% endfor %}
         </div>
+        {% endfor %}
+    </div>
+</div>
+
+    <!-- Modal 信息提示-->
+  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">相册删除</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          &emsp; &emsp; 确定要删除这个相册吗？
+        </div>
+        <div class="modal-footer">
+          <input type="hidden" id="url"/>
+          <a type="button" class="btn btn-success" data-bs-dismiss="modal" onclick="urlSubmit()">确定</a>
+{#          <a type="button" class="btn btn-success" href="URL">确定</a>#}
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
      <!-- Modal -->
-    {% for key,album in albumlist  %}
+    {% for album in albumlist  %}
         <div class="modal fade" id="album-{{ album.id }}">
             <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content">
                     <div class="modal-body">
                             <img
-                            src="{% static 'pics/' %}{{album.cover}}"
+                            src="{{ album.cover.url }}"
                             alt=""
                             class="card-img"
                             >
@@ -43,13 +97,33 @@
 {% endblock content %}
 
 {% block scripts %}
-
 <script type='text/javascript'>
-    $(window).on('load', function() {
+{
+  $(window).on('load', function() {
         $('#cards').masonry({
         // options
         itemSelector: '.grid-item'
         });
     })
+}
+function Value(url){
+
+    $('#url').val(url);//给会话中的隐藏属性url赋值
+    $('#staticBackdrop').modal();
+}
+
+function urlSubmit(){
+
+    var url = $.trim($("#url").val());  //获取会话中的隐藏属性url
+    window.location.href = url
+}
+
+ {% if messages %}
+
+    {% for msg in messages %}
+        alert('{{ msg.message }}');
+    {% endfor %}
+
+    {% endif %}
 </script>
 {% endblock scripts %}
